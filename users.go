@@ -199,7 +199,19 @@ func (inst *Instagram) NewUser() *User {
 // See example: examples/user/friendship.go
 func (user *User) Sync(params ...interface{}) error {
 	insta := user.inst
-	body, err := insta.sendSimpleRequest(urlUserInfo, user.ID)
+	
+	//body, err := insta.sendSimpleRequest(urlUserInfo, user.ID)
+	
+	data, err := insta.prepareData()
+	if err != nil {
+		return err
+	}
+	body, err := insta.sendRequest(&reqOptions{
+		Endpoint: fmt.Sprintf(urlUserInfo, user.ID),
+		Query:    generateSignature(data),
+		IsPost:   true,
+	})
+	
 	if err == nil {
 		resp := userResp{}
 		err = json.Unmarshal(body, &resp)
