@@ -1,3 +1,3 @@
-module github.com/ahmdrz/goinsta/v2
+module https://github.com/lucasmendesorg/goinsta/
 
 go 1.12
